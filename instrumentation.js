@@ -9,12 +9,11 @@ const {
   PeriodicExportingMetricReader,
   ConsoleMetricExporter,
 } = require('@opentelemetry/sdk-metrics');
+const { PrometheusExporter } = require('@opentelemetry/exporter-prometheus');
 
 const sdk = new NodeSDK({
   traceExporter: new ConsoleSpanExporter(),
-  metricReader: new PeriodicExportingMetricReader({
-    exporter: new ConsoleMetricExporter(),
-  }),
+  metricReader: new PrometheusExporter(),
   instrumentations: [getNodeAutoInstrumentations()],
 });
 

@@ -18,10 +18,12 @@ const {
 } = require('@opentelemetry/exporter-metrics-otlp-http');
 
 const sdk = new NodeSDK({
-  traceExporter: new OTLPTraceExporter(),
-  metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter()
-  }),
+  traceExporter: new ConsoleSpanExporter(),
+  metricReader: new PrometheusExporter(),
+  // traceExporter: new OTLPTraceExporter(),
+  // metricReader: new PeriodicExportingMetricReader({
+  //   exporter: new OTLPMetricExporter()
+  // }),
   instrumentations: [getNodeAutoInstrumentations()],
 });
 

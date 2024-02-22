@@ -10,10 +10,18 @@ const {
   ConsoleMetricExporter,
 } = require('@opentelemetry/sdk-metrics');
 const { PrometheusExporter } = require('@opentelemetry/exporter-prometheus');
+const {
+  OTLPTraceExporter,
+} = require('@opentelemetry/exporter-trace-otlp-http');
+const {
+  OTLPMetricExporter,
+} = require('@opentelemetry/exporter-metrics-otlp-http');
 
 const sdk = new NodeSDK({
-  traceExporter: new ConsoleSpanExporter(),
-  metricReader: new PrometheusExporter(),
+  traceExporter: new OTLPTraceExporter(),
+  metricReader: new PeriodicExportingMetricReader({
+    exporter: new OTLPMetricExporter()
+  }),
   instrumentations: [getNodeAutoInstrumentations()],
 });
 
